@@ -1,0 +1,8 @@
+<div class="home">
+    <div class="cont">
+        <div class="box" *ngFor="let product of products">
+             <img [src]="product.image" alt="">
+             <div class="names">
+                 <h2>{{product.name}}</h2>
+                 <h2>{{product.price}}</h2>
+             </div>
