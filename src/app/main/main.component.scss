@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@200..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+.main {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    padding: 50px;
+    background-color: #66b2b2;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+
+    
+      
+
+    .cont {
+    display: flex; 
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+    align-items: center;
+
+        .box {    
+                font-family: "Anton", sans-serif;
+                font-size: 15px;
+                color: #fff;    
+                font-weight: 400;
+                background-color: #e0e0e0;
+                border: 3px solid #ddd;
+                border-radius: 8px;
+                padding: 16px;
+                width: 250px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                transition: transform 0.2s, box-shadow 0.2s;
+
+            
+                .box:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                }
+
+            img {
+                width: 100%;
+            }
+            
+
+        }
+    }
+
+
+}
+
+select {
+        width: 250px;
+        height: 50px;
+        background-color: #4ec0c0; 
+        color: white;
+        padding: 10px 16px;
+        font-size: 16px;
+        border: 2px solid #3b9d9d; 
+        border-radius: 6px;
+        cursor: pointer;
+        outline: none;
+        transition: all 0.3s ease-in-out;
+      
+        &:hover {
+          background-color: #3b9d9d; 
+        }
+      
+        &:focus {
+          box-shadow: 0 0 10px rgba(78, 192, 192, 0.5);
+        }
+      
+        option {
+          background-color: #ffffff; 
+          color: #333; 
+        }
+      }

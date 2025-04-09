@@ -12,4 +12,15 @@ export class ApiService {
   getApi(url : string) : Observable<any>{
     return  this.http.get<any>(url)
 }
+
+  getCategory(url : string) : Observable<any[]>{
+    return  this.http.get<any[]>(url)
+}
+
+getProdCategory(url : string): Observable<any> {
+  return this.http.get<any>(url);
+}
+
+
+
 }

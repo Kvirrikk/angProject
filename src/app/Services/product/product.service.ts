@@ -11,4 +11,13 @@ export class UserService {
   getProducts() {
     return this.http.getApi("https://restaurant.stepprojects.ge/api/Products/GetAll")
 }
+
+  getProdCategory() {
+    return this.http.getCategory("https://restaurant.stepprojects.ge/api/Categories/GetAll")
+}
+
+getProdCategoryId(cateId : number) {
+  return this.http.getProdCategory(`https://restaurant.stepprojects.ge/api/Categories/GetCategory/${cateId}`)
+}
+
 }
