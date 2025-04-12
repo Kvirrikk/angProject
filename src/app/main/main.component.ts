@@ -15,9 +15,13 @@ import { FormsModule } from '@angular/forms';
 })
 export class MainComponent {
 
+
+
   products: Products[] = []
   category: any[] = []
   selectedCategoryId: number | null = null
+
+
 
   constructor(
     private api : UserService, 
@@ -25,16 +29,42 @@ export class MainComponent {
     private productService: UserService,  
     private apiService: ApiService){ }
 
+
+
+
+    filters = {
+      vegeterian: null as boolean | null,
+      nuts: null as boolean | null,
+      spiciness: null as number | null,
+      categoryId: null as number | null
+    }
+    
+    applyFilters() {
+      let params: any = {}
+    
+      if (this.filters.vegeterian !== null) params.vegeterian = this.filters.vegeterian
+      if (this.filters.nuts !== null) params.nuts = this.filters.nuts
+      if (this.filters.spiciness !== null) params.spiciness = this.filters.spiciness
+      if (this.filters.categoryId !== null) params.categoryId = this.filters.categoryId
+    
+      this.apiService.getFiltered(params).subscribe((resp) => {
+        this.products = resp
+      })
+    }
+
+
+
+
     onCateSelect() {
       if (this.selectedCategoryId !== null) {
         this.productService.getProdCategoryId(this.selectedCategoryId).subscribe((resp) => {
           this.products = resp.products
-        });
+        })
       } else {
 
         this.api.getProducts().subscribe((resp) => {
           this.products = resp 
-        });
+        })
       }
     }
 
@@ -50,9 +80,9 @@ export class MainComponent {
 
         this.productService.getProdCategory().subscribe((resp) => {
           this.category = resp;
-        });
+        })
         
-      });
+      })
   }
 
 }

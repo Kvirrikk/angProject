@@ -1,9 +1,52 @@
-<select [(ngModel)]="selectedCategoryId"  (change)="onCateSelect()">
-        <option [ngValue]="null">All Categories</option>
-        <option *ngFor="let cate of category" [ngValue]="cate.id">
-          {{ cate.name }}
-        </option>
-      </select>
+<div class="mainOfMain">
+
+  <form (ngSubmit)="applyFilters()" class="filterForm">
+    <div class="filter-row">
+      <div class="filter-group">
+        <label>Vegetarian:</label>
+        <select [(ngModel)]="filters.vegeterian" name="vegeterian">
+          <option [ngValue]="null">All</option>
+          <option [ngValue]="true">Yes</option>
+          <option [ngValue]="false">No</option>
+        </select>
+      </div>
+      </div>
+  
+      <div class="filter-row">
+      <div class="filter-group">
+        <label>Contains Nuts:</label>
+        <select [(ngModel)]="filters.nuts" name="nuts">
+          <option [ngValue]="null">All</option>
+          <option [ngValue]="true">Yes</option>
+          <option [ngValue]="false">No</option>
+        </select>
+      </div>
+    </div>
+  
+    <div class="filter-row">
+      <div class="filter-group">
+        <label>Spiciness:</label>
+        <select [(ngModel)]="filters.spiciness" name="spiciness">
+          <option [ngValue]="null">All</option>
+          <option *ngFor="let spiciness of [0, 1, 2, 3, 4, 5]" [ngValue]="spiciness">{{ spiciness }}</option>
+        </select>
+      </div>
+      </div>
+  
+    <div class="filter-row">
+      <div class="filter-group">
+        <label>Category:</label>
+        <select [(ngModel)]="filters.categoryId" name="categoryId">
+          <option [ngValue]="null">All</option>
+          <option *ngFor="let cate of category" [ngValue]="cate.id">{{ cate.name }}</option>
+        </select>
+      </div>
+    </div>
+
+  
+    <button type="submit">Apply filters</button>
+  </form>
+
 
 <div class="main">
     
@@ -19,5 +62,9 @@
              </div>
         </div>
     </div>
+    </div>
+
+    
+
 
     
