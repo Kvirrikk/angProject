@@ -1,11 +1,21 @@
 import { Routes } from '@angular/router';
-import { MainComponent } from './main/main.component';
-import { HomeComponent } from './home/home.component';
-import { AboutUsComponent } from './about-us/about-us.component';
 
 export const routes: Routes = [
     {path: '', redirectTo: 'home', pathMatch: 'full'},
-    {path: 'home', component: HomeComponent},
-    {path: 'main', component: MainComponent},
-    {path: 'about', component: AboutUsComponent},
+    {
+        path: "home",
+        loadComponent: () => import('./home/home.component').then(m => m.HomeComponent)
+     },
+     {
+        path: "main",
+        loadComponent: () => import('./main/main.component').then(m => m.MainComponent)
+     },
+     {
+        path: "about",
+        loadComponent: () => import('./about-us/about-us.component').then(m => m.AboutUsComponent)
+     },
+     {
+        path: "contact",
+        loadComponent: () => import('./contact-us/contact-us.component').then(m => m.ContactUsComponent)
+     },
 ];

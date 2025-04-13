@@ -23,7 +23,7 @@ getProdCategory(url : string): Observable<any> {
 
 getFiltered(params: any): Observable<any> {
   let httpParams = new HttpParams({ fromObject: params });
-  return this.http.get<any>(`https://restaurant.stepprojects.ge/api/Products/GetFiltered$`, { params: httpParams });
+  return this.http.get<any>(`https://restaurant.stepprojects.ge/api/Products/GetFiltered`, { params: httpParams });
 }
 
 

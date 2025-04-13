@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../Services/api.service';
 import { FormsModule } from '@angular/forms';
+import { BasketService } from '../Services/basket.service';
 
 @Component({
   selector: 'app-main',
@@ -27,7 +28,9 @@ export class MainComponent {
     private api : UserService, 
     private router: Router,
     private productService: UserService,  
-    private apiService: ApiService){ }
+    private apiService: ApiService,
+    private basketService : BasketService
+  ){ }
 
 
 
@@ -40,19 +43,40 @@ export class MainComponent {
     }
     
     applyFilters() {
+      let { vegeterian, nuts, spiciness, categoryId } = this.filters
+    
+      if (vegeterian === null && nuts === null && spiciness === null && categoryId === null) {
+        this.api.getProducts().subscribe(resp => {
+          this.products = resp
+        })
+        return;
+      }
+    
       let params: any = {}
+      if (vegeterian !== null) params.vegeterian = vegeterian
+      if (nuts !== null) params.nuts = nuts
+      if (spiciness !== null) params.spiciness = spiciness
+      if (categoryId !== null) params.categoryId = categoryId
     
-      if (this.filters.vegeterian !== null) params.vegeterian = this.filters.vegeterian
-      if (this.filters.nuts !== null) params.nuts = this.filters.nuts
-      if (this.filters.spiciness !== null) params.spiciness = this.filters.spiciness
-      if (this.filters.categoryId !== null) params.categoryId = this.filters.categoryId
-    
-      this.apiService.getFiltered(params).subscribe((resp) => {
+      this.apiService.getFiltered(params).subscribe(resp => {
         this.products = resp
+      });
+    }
+    
+
+    addToTheBasket(product: any) {
+      this.basketService.addToBasket(product.id, 1, product.price).subscribe(() => {
+        console.log('Added to basket!')
       })
     }
 
 
+    updateProductInBasket(product: any, newQuantity: number) {
+      let newPrice = product.price * newQuantity;
+      this.basketService.updateBasket(product.id, newQuantity, newPrice).subscribe(() => {
+        console.log('Basket updated!');
+      });
+    }
 
 
     onCateSelect() {
@@ -75,11 +99,11 @@ export class MainComponent {
   ngOnInit(){
       this.products$ = this.api.getProducts();
       this.products$.subscribe(resp => {
-        this.products = resp;
-        console.log(resp);
+        this.products = resp
+        console.log(resp)
 
         this.productService.getProdCategory().subscribe((resp) => {
-          this.category = resp;
+          this.category = resp
         })
         
       })

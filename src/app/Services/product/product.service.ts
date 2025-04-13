@@ -20,4 +20,5 @@ getProdCategoryId(cateId : number) {
   return this.http.getProdCategory(`https://restaurant.stepprojects.ge/api/Categories/GetCategory/${cateId}`)
 }
 
+
 }
