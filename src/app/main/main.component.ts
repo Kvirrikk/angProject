@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../Services/api.service';
 import { FormsModule } from '@angular/forms';
-import { BasketService } from '../Services/basket.service';
 
 @Component({
   selector: 'app-main',
@@ -17,7 +16,7 @@ import { BasketService } from '../Services/basket.service';
 export class MainComponent {
 
 
-
+  basket: any[] = []
   products: Products[] = []
   category: any[] = []
   selectedCategoryId: number | null = null
@@ -29,7 +28,6 @@ export class MainComponent {
     private router: Router,
     private productService: UserService,  
     private apiService: ApiService,
-    private basketService : BasketService
   ){ }
 
 
@@ -64,19 +62,57 @@ export class MainComponent {
     }
     
 
-    addToTheBasket(product: any) {
-      this.basketService.addToBasket(product.id, 1, product.price).subscribe(() => {
-        console.log('Added to basket!')
-      })
-    }
-
-
-    updateProductInBasket(product: any, newQuantity: number) {
-      let newPrice = product.price * newQuantity;
-      this.basketService.updateBasket(product.id, newQuantity, newPrice).subscribe(() => {
-        console.log('Basket updated!');
+    getBasket() {
+      this.apiService.getBasket().subscribe((resp) => {
+        this.basket = resp;
       });
     }
+
+    addToBasket(product: any) {
+      let existing = this.basket.find(p => p.productId === product.id);
+      if (existing) {
+        this.updateQuantity(existing, 1);
+      } else {
+        let newItem = {
+          productId: product.id,
+          name: product.name,
+          quantity: 1,
+          price: product.price
+        };
+        this.apiService.addToBasket(newItem).subscribe(() => {
+          this.basket.push(newItem);
+        });
+      }
+    }
+    
+    updateQuantity(item: any, change: number) {
+      let newQuantity = item.quantity + change;
+      if (newQuantity <= 0) {
+        this.apiService.deleteProductFromBasket(item.productId).subscribe(() => {
+          this.basket = this.basket.filter(p => p.productId !== item.productId);
+        });
+      } else {
+        item.quantity = newQuantity;
+        
+  
+        let unitPrice = item.originalPrice ?? (item.price / (item.quantity - change));
+        item.originalPrice = unitPrice; 
+        item.price = unitPrice * newQuantity;
+    
+        this.apiService.updateBasket({
+          productId: item.productId,
+          quantity: item.quantity,
+          price: item.price
+        }).subscribe();
+      }
+    }
+
+    removeFromBasket(id: number) {
+      this.apiService.deleteProductFromBasket(id).subscribe(() => {
+        this.getBasket();
+      });
+    }
+    
 
 
     onCateSelect() {

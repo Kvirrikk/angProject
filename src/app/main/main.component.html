@@ -57,10 +57,25 @@
                  <h3>Contains nut: {{product.nuts ? 'Yes' : 'No'}}</h3>
                  <h3>Is vegeterian: {{product.vegeterian ? 'Yes' : 'No'}}</h3>
                  <h3>Spiciness: {{product.spiciness}} scoville</h3>
-                 <button (click)="addToTheBasket(product)">Add to basket</button>
+                 <button (click)="addToBasket(product)">Add to basket</button>
              </div>
         </div>
     </div>
+
+    <div class="basketSection">
+      <h2>Your Basket</h2>
+      <div *ngFor="let item of basket">
+        <p><strong>{{ item.name }}</strong></p>
+        <p>Price: {{ item.price }}$</p>
+        <div class="quantityControls">
+          <button (click)="updateQuantity(item, -1)">-</button>
+          <button (click)="updateQuantity(item, 1)">+</button>
+          <span>({{ item.quantity }})</span>
+          <button (click)="removeFromBasket(item.id)" >remove</button>
+        </div>
+      </div>
+    </div>
+    
     </div>
 
     
